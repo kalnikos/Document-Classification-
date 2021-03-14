@@ -5,9 +5,6 @@ from sklearn import svm
 
 app = flask.Flask(__name__)
 
-#from flask_cors import CORS
-#CORS(app)
-
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -49,7 +46,7 @@ def text_pre(text):
     finalsent = finalsent.replace("'d", " would") 
     
     ## Load the vectorizer model
-    path_model = r"C:\Users\nikos\Desktop\Classify reviews\Pickles\vectorizer.pickle"
+    path_model = "vectorizer.pickle"
     with open(path_model, 'rb') as dt:
          vectorizer = pickle.load(dt)
             
@@ -58,7 +55,7 @@ def text_pre(text):
     finalsent = vectorizer.transform(finalsent).toarray()
     
     ## Apply PCA to the uploaded document
-    path = r"C:\Users\nikos\Desktop\Classify reviews\model_data\pca.pickle"
+    path = "pca.pickle"
     with open(path, 'rb') as dt:
          pca = pickle.load(dt)
             
@@ -67,31 +64,27 @@ def text_pre(text):
 
     return finalsent 
 
-def category_name(result):
-    encode = {0:'Admin', 1:'Analyst', 2:'cleaner', 3:'Finance', 4:'hospitality',
-       5:'recruitment', 6:'Warehouse', 7:'web developer'}
-    
-    if result in encode:
-        print(encode[result])
-    else:
-        print("I dont have the answer")
         
 @app.route('/predict',methods=['POST'])
 def predict():
-    path_model = r"C:\Users\nikos\Desktop\models_df\best_svm.pickle"
+    path_model = "best_svm.pickle"
     with open(path_model, 'rb') as dt:
          svm_model = pickle.load(dt)
     
-    #import docx2txt
-    #myfile = r"C:\Users\nikos\Desktop\web_scraping\monster-cv-template-admin-assistant.docx"
-    #finalsent =  docx2txt.process(myfile)
+    
     if request.method == 'POST':
-        #finalsent = request.args["Document"]
         message = request.form['message']
-        data = svm_model.predict(text_pre(message))
-    #   text_pred = category_name(text_pred)
-        return render_template('result.html', prediction = data)
+        message = text_pre(message)
+        if svm_model.predict_proba(message).max(axis=1) > 0.65:
+             data = svm_model.predict(message)[0]
+             return render_template('result.html', prediction = data)
+        else:
+            data = 8
+            return render_template('result.html', prediction = data)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #on the local server
+    #app.run(debug=True)
+    # on ubuntu server
+    app.run(host='0.0.0', port=8080)
