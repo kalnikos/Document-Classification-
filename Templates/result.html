@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="C:\Users\nikos\Desktop\Classify reviews\static\styles.css">
+</head>
+<body>
+
+	<header>
+		<div class="container">
+		<div id="brandname">
+			<h2>The description refers to: </h2>
+		</div>
+		
+
+	</div>
+	</header>
+	<p style="color:blue;font-size:20;text-align: center;"><b></b></p>
+	<div class="results">
+
+
+
+	{% if prediction == 0%}
+	<h2 style="color:red;">ADMIN</h2>
+	{% elif prediction == 1%}
+	<h2 style="color:blue;">ANALYST</h2>
+  {% elif prediction == 2%}
+	<h2 style="color:rgb(183, 0, 255);">CLEANER</h2>
+  {% elif prediction == 3%}
+	<h2 style="color:rgb(9, 255, 0);">FINANCE</h2>
+  {% elif prediction == 4%}
+	<h2 style="color:rgb(255, 0, 34);">HOSPITALITY</h2>
+  {% elif prediction == 5%}
+	<h2 style="color:rgb(251, 255, 0);">RECRUITMENT</h2>
+  {% elif prediction == 6%}
+	<h2 style="color:rgb(0, 255, 221);">WAREHOUSE</h2>
+  {% elif prediction == 7%}
+	<h2 style="color:rgb(72, 255, 0);">WEB DEVELOPER</h2>
+  {% elif prediction == 8%}
+	<h2 style="color:rgb(15, 15, 15);">I don't know the answer</h2>
+  {% endif %}
+
+	</div>
+
+</body>
+</html>
