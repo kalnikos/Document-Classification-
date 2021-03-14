@@ -1,0 +1,69 @@
+body{
+	font:15px/1.5 Arial, Helvetica,sans-serif;
+	background-color:#f4f3f3;
+}
+
+
+.container{
+	width:100%;
+	margin: auto;
+	overflow: hidden;
+}
+
+header{
+	background:#036bf4;#35434a;
+	border-bottom:#448AFF 3px solid;
+	height:120px;
+	width:100%;
+	padding-top:30px;
+
+}
+
+.ml-container{
+	padding-left: 350px;
+	padding-top: 100px;
+	
+}
+
+
+.main-header{
+			text-align:center;
+			background-color: blue;
+			height:100px;
+			width:100%;
+			margin:0px;
+			
+
+		}
+#brandname{
+	text-align:center;
+	font-size:50px;
+	color: rgb(0, 0, 0);
+	margin: 10px;
+}
+
+header h2{
+	font-size: 30px;
+	padding-top: 60px;
+	text-align:center;
+	color:rgb(0, 0, 0);
+
+}
+
+textarea {
+	width: 700px;
+	height: 300px;
+	border-style: groove;
+    border-width: 7px;
+    border-color: rgb(95, 94, 94);
+  }
+
+
+
+.results{
+	font-size: 50px;
+	padding-left: 500px;
+	padding-top: 100px;
+    width: 200px;
+    height: 150px;
+}
