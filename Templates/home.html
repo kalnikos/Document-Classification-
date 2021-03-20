@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Home</title>
-	<link rel="stylesheet" href="C:\Users\nikos\Desktop\Classify reviews\static\styles.css">
+	<link rel="stylesheet" href="\static\styles.css">
 	<!--link rel="stylesheet" type="text/css" href="/static/styles.css">-->
 	<!--link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}"> -->
 	
@@ -14,7 +14,7 @@
 		<div id="brandname">
 			Machine Learning App
 		</div>
-		<h2>Predict the type of your document</h2>
+		<h3>Predict the type of a job Description</h3>
 
 	</div>
 	</header>
@@ -22,16 +22,23 @@
 	<div class="ml-container">
 
 		<form action="{{ url_for('predict')}}" method="POST">
-		<p>Type or Paste the document hear</p>
+                <p>Type or Paste the document hear</p>
 		<!-- <input type="text" name="comment"/> -->
 		<textarea name="message" rows="4" cols="50"></textarea>
 		<br/>
 
 		<input type="submit" class="btn-info" value="predict">
-
+        </div>
+          
 	</form>
-
-	</div>
+        <div class="upload">
+              <p>Upload your Document</p>
+              <form action="{{ url_for('predic')}}" method="POST" enctype = "multipart/form-data">
+                 <input type="file" name="file" value="">
+                 <input type="submit" name="" value="predict">
+               </form>
+         </div>
+	
 
 
 
