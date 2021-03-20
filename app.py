@@ -2,8 +2,21 @@ import flask
 import pickle
 from flask import Flask,render_template,url_for,request
 from sklearn import svm
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import  FileStorage
+from pathlib import Path
+import docx2txt
+import os
+
+UPLOAD_FOLDER = "/home/ubuntu"
+
 
 app = flask.Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+#from flask_cors import CORS
+#CORS(app)
 
 @app.route('/')
 def home():
@@ -63,28 +76,41 @@ def text_pre(text):
     finalsent = pca.transform(finalsent)
 
     return finalsent 
-
         
+path_model = "best_svm.pickle"
+with open(path_model, 'rb') as dt:
+        svm_model = pickle.load(dt)
+
 @app.route('/predict',methods=['POST'])
-def predict():
-    path_model = "best_svm.pickle"
-    with open(path_model, 'rb') as dt:
-         svm_model = pickle.load(dt)
-    
-    
+def predict():         
     if request.method == 'POST':
         message = request.form['message']
         message = text_pre(message)
         if svm_model.predict_proba(message).max(axis=1) > 0.65:
-             data = svm_model.predict(message)[0]
-             return render_template('result.html', prediction = data)
+                       data = svm_model.predict(message)[0]
+                       return render_template('result.html', prediction = data)
         else:
-            data = 8
-            return render_template('result.html', prediction = data)
+                data = 8
+                return render_template('result.html', prediction = data)
+
+
+
+@app.route('/predic',methods=['GET', 'POST'])
+def predic():
+    if request.method == 'POST':
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        path = Path(filename).absolute()
+        my_new =  docx2txt.process(path)
+        message = text_pre(my_new)
+        if svm_model.predict_proba(message).max(axis=1) > 0.65:
+                       data = svm_model.predict(message)[0]
+                       return render_template('result.html', pred = data)
+        else:
+             data = 8
+             return render_template('result.html', pred = data)
 
 
 if __name__ == '__main__':
-    #on the local server
-    #app.run(debug=True)
-    # on ubuntu server
-    app.run(host='0.0.0', port=8080)
+      app.run(host='0.0.0', port=8080)
